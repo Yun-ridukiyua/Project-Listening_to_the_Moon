@@ -1,6 +1,6 @@
 import React, { ReactNode, useMemo } from 'react';
 
-import aVideo from '../../../assets/video/death.mp4';
+import aVideo from '../../../assets/video/c1_death.mp4';
 import { Duration } from '../../../features/Duration';
 import { MoviePage } from '../../book-page/MoviePage';
 import { TapController } from '../../controller/TapController';
