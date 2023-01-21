@@ -13,7 +13,7 @@ export const MovieBook = React.memo(() => {
     const chapter2 = useChapter2();
 
     const slides = useMemo(() => {
-        const pages = chapter1.concat(chapter2);
+        const pages = chapter2; //.concat(chapter2);
         return pages.map((page, index) => (
             <SwiperSlide virtualIndex={index} key={`Slide ${index}`}>
                 {page}

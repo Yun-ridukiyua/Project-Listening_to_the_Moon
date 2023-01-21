@@ -20,7 +20,8 @@ const Video = styled.video`
 export const MoviePage = React.memo<{
     src: string;
     duration: Duration;
-}>(({ src, duration }) => {
+    loop?: boolean;
+}>(({ src, duration, loop = false }) => {
     const isPlayingRef = useRef(false);
     const videoRef = useRef<HTMLVideoElement>(null);
     const { isVisible, isStable } = usePageVisibleState(videoRef.current);
@@ -40,7 +41,7 @@ export const MoviePage = React.memo<{
             const videoElement = videoRef.current;
             if (!videoElement) return;
             if (isNearlyEqual(videoElement.currentTime, seconds)) return;
-            console.log(`set time ${seconds}`);
+            //console.log(`set time ${seconds}`);
             console.trace();
             videoElement.currentTime = seconds;
         },
@@ -69,32 +70,41 @@ export const MoviePage = React.memo<{
     }, [videoRef, isPlayingRef]);
 
     /**
+     * 動画の時間が変更された時のハンドラ
+     */
+    const onTimeUpdateHandler = useCallback(() => {
+        const videoElement = videoRef.current;
+        if (!videoElement) return;
+        const currentTime = videoElement.currentTime;
+        if (currentTime >= duration.end) {
+            //console.log(`time over ${currentTime} ${duration.end}`);
+            //console.trace();
+            if (loop) {
+                setCurrentTime(duration.start);
+            } else {
+                if (!isNearlyEqual(currentTime, duration.end)) {
+                    setCurrentTime(duration.end);
+                }
+                pause();
+            }
+        }
+    }, [videoRef, duration, setCurrentTime, pause]);
+
+    /**
      * 動画の再生時間を監視する
      */
     useEffect(() => {
         const videoElement = videoRef.current;
         if (!videoElement) return;
         const abortController = new AbortController();
-        videoElement.addEventListener(
-            "timeupdate",
-            (_) => {
-                const currentTime = videoElement.currentTime;
-                if (currentTime >= duration.end) {
-                    console.log(`time over ${currentTime} ${duration.end}`);
-                    console.trace();
-                    if (!isNearlyEqual(currentTime, duration.end)) {
-                        setCurrentTime(duration.end);
-                    }
-                    pause();
-                }
-            },
-            { signal: abortController.signal }
-        );
+        videoElement.addEventListener("timeupdate", onTimeUpdateHandler, {
+            signal: abortController.signal,
+        });
 
         return () => {
             abortController.abort();
         };
-    }, [videoRef, duration, pause]);
+    }, [videoRef, onTimeUpdateHandler]);
 
     /**
      * ページが前か次に来た時に再生時間を開始地点に戻す

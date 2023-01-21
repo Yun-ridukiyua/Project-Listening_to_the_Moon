@@ -1,10 +1,13 @@
 import React, { ReactNode, useMemo } from 'react';
 
-import aVideo from '../../../assets/video/stagnation.mp4';
+import aVideo from '../../../assets/video/c2_stagnation.mp4';
 import { Duration } from '../../../features/Duration';
 import { MoviePage } from '../../book-page/MoviePage';
 import { TapController } from '../../controller/TapController';
 
+/**
+ * チャプター2のページを使用する
+ */
 export const useChapter2 = () => {
     return useMemo(() => {
         const pages = new Array<ReactNode>();
@@ -12,9 +15,8 @@ export const useChapter2 = () => {
         //わからないはずの君を待っている
         pages.push(
             <TapController>
-                <MoviePage src={aVideo} duration={new Duration(0, 1)}></MoviePage>
-                <MoviePage src={aVideo} duration={new Duration(1, 2)}></MoviePage>
-                <MoviePage src={aVideo} duration={new Duration(3, 5)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(0, 3)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(4, 5)}></MoviePage>
                 <MoviePage src={aVideo} duration={new Duration(6, 8)}></MoviePage>
                 <MoviePage src={aVideo} duration={new Duration(8, 20)}></MoviePage>
             </TapController>
@@ -23,7 +25,7 @@ export const useChapter2 = () => {
         //通り道が遠り道
         pages.push(
             <TapController>
-                <MoviePage src={aVideo} duration={new Duration(24, 54)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(22, 54)} loop></MoviePage>
             </TapController>
         );
 
@@ -44,14 +46,19 @@ export const useChapter2 = () => {
         // 雨に声をかけて
         pages.push(
             <TapController>
-                <MoviePage src={aVideo} duration={new Duration(78, 90)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(78, 80)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(81, 82)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(83, 84)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(85, 88)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(88, 90)}></MoviePage>
             </TapController>
         );
 
         //夜の星屑
         pages.push(
             <TapController>
-                <MoviePage src={aVideo} duration={new Duration(91, 115)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(91, 92)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(93, 115)}></MoviePage>
             </TapController>
         );
 
@@ -69,14 +76,15 @@ export const useChapter2 = () => {
         pages.push(
             <TapController>
                 <MoviePage src={aVideo} duration={new Duration(145, 147)}></MoviePage>
-                <MoviePage src={aVideo} duration={new Duration(148, 149)}></MoviePage>
-                <MoviePage src={aVideo} duration={new Duration(150, 152)}></MoviePage>
-                <MoviePage src={aVideo} duration={new Duration(153, 160)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(148, 148)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(149, 151)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(152, 160)}></MoviePage>
                 <MoviePage src={aVideo} duration={new Duration(162, 166)}></MoviePage>
                 <MoviePage src={aVideo} duration={new Duration(167, 174)}></MoviePage>
             </TapController>
         );
 
+        //もうこれでいいのなら
         pages.push(
             <TapController>
                 <MoviePage src={aVideo} duration={new Duration(175, 185)}></MoviePage>
