@@ -107,8 +107,8 @@ export const MoviePage = React.memo<{
     }, [videoRef, onTimeUpdateHandler]);
 
     /**
-     * ページが前か次に来た時に再生時間を開始地点に戻す
-     * 現在表示されているなら再生
+     * ページが現在表示されているなら再生し、それ以外なら開始秒数に戻し停止。
+     * isVisibleは消してはいけない
      */
     useEffect(() => {
         if (isStable) {
