@@ -5,6 +5,9 @@ import { Duration } from '../../../features/Duration';
 import { MoviePage } from '../../book-page/MoviePage';
 import { TapController } from '../../controller/TapController';
 
+/**
+ * チャプター1のページを使用する
+ */
 export const useChapter1 = () => {
     return useMemo(() => {
         const pages = new Array<ReactNode>();
@@ -13,14 +16,14 @@ export const useChapter1 = () => {
             <TapController>
                 {/**こんにちは わたくしと*/}
                 <MoviePage src={aVideo} duration={new Duration(0, 5)}></MoviePage>
-                {/** 私の周りを*/}
-                <MoviePage src={aVideo} duration={new Duration(6, 11)}></MoviePage>
+                {/** わたしの周りを*/}
+                <MoviePage src={aVideo} duration={new Duration(6, 10)}></MoviePage>
                 {/** 夜になると*/}
-                <MoviePage src={aVideo} duration={new Duration(12, 17)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(12, 16)}></MoviePage>
                 {/** 朝になると*/}
-                <MoviePage src={aVideo} duration={new Duration(18, 22)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(18, 22)} loop></MoviePage>
                 {/** 手に蝋燭*/}
-                <MoviePage src={aVideo} duration={new Duration(23, 28)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(24, 27)} loop></MoviePage>
                 {/** そうか、全て*/}
                 <MoviePage src={aVideo} duration={new Duration(29, 35)}></MoviePage>
             </TapController>
