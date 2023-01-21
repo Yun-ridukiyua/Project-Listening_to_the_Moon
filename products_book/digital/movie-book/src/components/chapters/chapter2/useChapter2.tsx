@@ -12,9 +12,8 @@ export const useChapter2 = () => {
         //わからないはずの君を待っている
         pages.push(
             <TapController>
-                <MoviePage src={aVideo} duration={new Duration(0, 1)}></MoviePage>
-                <MoviePage src={aVideo} duration={new Duration(1, 2)}></MoviePage>
-                <MoviePage src={aVideo} duration={new Duration(3, 5)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(0, 3)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(4, 5)}></MoviePage>
                 <MoviePage src={aVideo} duration={new Duration(6, 8)}></MoviePage>
                 <MoviePage src={aVideo} duration={new Duration(8, 20)}></MoviePage>
             </TapController>
