@@ -22,7 +22,7 @@ export const useChapter2 = () => {
         //通り道が遠り道
         pages.push(
             <TapController>
-                <MoviePage src={aVideo} duration={new Duration(24, 54)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(22, 54)} loop></MoviePage>
             </TapController>
         );
 
