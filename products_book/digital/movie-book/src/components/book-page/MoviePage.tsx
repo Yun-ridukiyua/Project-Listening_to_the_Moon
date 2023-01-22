@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import { children } from 'dom7';
+import React, { ReactNode, useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { Duration } from '../../features/Duration';
@@ -21,7 +22,8 @@ export const MoviePage = React.memo<{
     src: string;
     duration: Duration;
     loop?: boolean;
-}>(({ src, duration, loop = false }) => {
+    children?: ReactNode;
+}>(({ src, duration, loop = false, children = null }) => {
     const isPlayingRef = useRef(false);
     const videoRef = useRef<HTMLVideoElement>(null);
     const { isVisible, isStable } = usePageVisibleState(videoRef.current);
@@ -120,5 +122,10 @@ export const MoviePage = React.memo<{
         }
     }, [isVisible, isStable, duration, pause, play, setCurrentTime]);
 
-    return <Video ref={videoRef} src={src} preload="auto"></Video>;
+    return (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+            <Video ref={videoRef} src={src} preload="auto"></Video>
+            {children}
+        </div>
+    );
 });

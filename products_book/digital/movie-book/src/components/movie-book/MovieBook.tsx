@@ -20,8 +20,8 @@ export const MovieBook = React.memo(() => {
         //const pages = chapter1; //chapter1だけ
         //const pages = chapter2; //chapter2だけ
         //const pages = chapter3; //chapter3だけ
-        //const pages = chapter4; //chapter4だけ
-        const pages = chapter1.concat(chapter2).concat(chapter3).concat(chapter4); //本番
+        const pages = chapter4; //chapter4だけ
+        //const pages = chapter1.concat(chapter2).concat(chapter3).concat(chapter4); //本番
         return pages.map((page, index) => (
             <SwiperSlide virtualIndex={index} key={`Slide ${index}`}>
                 {page}
