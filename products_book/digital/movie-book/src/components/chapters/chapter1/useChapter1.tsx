@@ -20,9 +20,9 @@ export const useChapter1 = () => {
         pages.push(
             <TapController>
                 {/**こんにちは わたくしと*/}
-                <MoviePage src={aVideo} duration={new Duration(0, 4)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(0, 4)} loop></MoviePage>
                 {/** わたしの周りを*/}
-                <MoviePage src={aVideo} duration={new Duration(6, 10)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(6, 10)} loop></MoviePage>
                 {/** 夜になると*/}
                 <MoviePage src={aVideo} duration={new Duration(12, 16)} loop></MoviePage>
                 {/** 朝になると*/}
@@ -30,7 +30,9 @@ export const useChapter1 = () => {
                 {/** 手に蝋燭*/}
                 <MoviePage src={aVideo} duration={new Duration(24, 27)} loop></MoviePage>
                 {/** そうか、全て*/}
-                <MoviePage src={aVideo} duration={new Duration(29, 35)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(29, 34)} loop></MoviePage>
+                {/** 終了*/}
+                <MoviePage src={aVideo} duration={new Duration(36, 37)} ></MoviePage>
             </TapController>
         );
 
