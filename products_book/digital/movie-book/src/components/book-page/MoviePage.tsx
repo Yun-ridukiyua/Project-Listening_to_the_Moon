@@ -44,7 +44,7 @@ export const MoviePage = React.memo<{
             if (!videoElement) return;
             if (isNearlyEqual(videoElement.currentTime, seconds)) return;
             //console.log(`set time ${seconds}`);
-            console.trace();
+            //console.trace();
             videoElement.currentTime = seconds;
         },
         [videoRef]
