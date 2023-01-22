@@ -42,6 +42,7 @@ export const Jellyfish = React.memo<{ src: string; children?: ReactNode }>(({ sr
         setContext2D(context);
         const aImage = new Image();
         aImage.src = src;
+        aImage.crossOrigin = "anonymous";
         aImage.onload = () => {
             context.drawImage(aImage, 0, 0);
             setRate({

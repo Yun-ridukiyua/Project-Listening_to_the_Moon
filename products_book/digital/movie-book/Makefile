@@ -19,6 +19,7 @@ test:serve
 
 build:all
 	$(NPM_RUN) $(DEVELOP)
+	open -a $(OPEN_APP) $(DIST)/index.html
 
 production:all
 	$(NPM_RUN) $(PRODUCTION)
