@@ -1,5 +1,6 @@
 import React, { ReactNode, useMemo } from 'react';
 
+import titleImage from '../../../assets/image/chapter4/chapter_cover_c4.png';
 import jellyfish1 from '../../../assets/image/chapter4/jellyfish_1.png';
 import jellyfish2 from '../../../assets/image/chapter4/jellyfish_2.png';
 import jellyfish3 from '../../../assets/image/chapter4/jellyfish_3.png';
@@ -7,6 +8,7 @@ import jellyfish4 from '../../../assets/image/chapter4/jellyfish_4.png';
 import jellyfish5 from '../../../assets/image/chapter4/jellyfish_5.png';
 import aVideo from '../../../assets/video/c4_birth.mp4';
 import { Duration } from '../../../features/Duration';
+import { ImagePage } from '../../book-page/ImagePage';
 import { MoviePage } from '../../book-page/MoviePage';
 import { Jellyfish } from '../../jellyfish/Jellyfish';
 
@@ -16,6 +18,9 @@ import { Jellyfish } from '../../jellyfish/Jellyfish';
 export const useChapter4 = () => {
     return useMemo(() => {
         const pages = new Array<ReactNode>();
+
+        /**表紙*/
+        pages.push(<ImagePage src={titleImage}></ImagePage>);
 
         //小さな鼓動が
         pages.push(<MoviePage src={aVideo} duration={new Duration(0, 4)}></MoviePage>);
@@ -34,7 +39,7 @@ export const useChapter4 = () => {
 
         //月が開く
         pages.push(
-            <MoviePage src={aVideo} duration={new Duration(33, 39)}>
+            <MoviePage src={aVideo} duration={new Duration(35, 39)}>
                 <Jellyfish src={jellyfish1}>
                     <Jellyfish src={jellyfish2}>
                         <Jellyfish src={jellyfish3}>

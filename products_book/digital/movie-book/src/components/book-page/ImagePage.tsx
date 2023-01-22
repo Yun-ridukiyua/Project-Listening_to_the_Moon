@@ -11,9 +11,9 @@ const Image = styled.img`
 /**
  * 静止画を表示するページを表すコンポーネント
  */
-export const ImagePage = React.memo<{ children: ReactNode; src: string }>(({ children, src }) => {
+export const ImagePage = React.memo<{ children?: ReactNode; src: string }>(({ children, src }) => {
     return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             <Image src={src}></Image>
             {children}
         </div>

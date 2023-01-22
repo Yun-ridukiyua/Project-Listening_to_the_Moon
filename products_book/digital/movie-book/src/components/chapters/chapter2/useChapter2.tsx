@@ -1,7 +1,9 @@
 import React, { ReactNode, useMemo } from 'react';
 
+import titleImage from '../../../assets/image/chapter2/chapter_cover_c2.png';
 import aVideo from '../../../assets/video/c2_stagnation.mp4';
 import { Duration } from '../../../features/Duration';
+import { ImagePage } from '../../book-page/ImagePage';
 import { MoviePage } from '../../book-page/MoviePage';
 import { TapController } from '../../controller/TapController';
 
@@ -11,6 +13,9 @@ import { TapController } from '../../controller/TapController';
 export const useChapter2 = () => {
     return useMemo(() => {
         const pages = new Array<ReactNode>();
+
+        /**表紙*/
+        pages.push(<ImagePage src={titleImage}></ImagePage>);
 
         //わからないはずの君を待っている
         pages.push(
