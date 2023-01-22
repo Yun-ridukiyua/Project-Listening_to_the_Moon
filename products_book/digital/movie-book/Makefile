@@ -33,3 +33,6 @@ clean:
 
 wipe:clean
 	@rm -rf $(NODE_MODULES)
+
+prepare:all
+	npm install
