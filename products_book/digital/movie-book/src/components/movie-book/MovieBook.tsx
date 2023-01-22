@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Virtual } from 'swiper';
+import { Lazy, Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { useChapter1 } from '../chapters/chapter1/useChapter1';
@@ -35,8 +35,10 @@ export const MovieBook = React.memo(() => {
             slidesPerView={1}
             style={{ width: "100%", height: "100%" }}
             virtual
-            modules={[Virtual]}
+            modules={[Virtual, Lazy]}
             threshold={10}
+            preloadImages={true}
+            lazy={{ loadPrevNext: true, loadPrevNextAmount: 2 }}
         >
             {slides}
         </Swiper>

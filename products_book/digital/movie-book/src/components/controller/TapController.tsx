@@ -1,5 +1,5 @@
 import React, { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import SwiperCore, { EffectFade } from 'swiper';
+import SwiperCore, { EffectFade, Lazy } from 'swiper';
 import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from 'swiper/react';
 
 import { usePageVisibleState } from '../book-page/hooks/useIsPageStable';
@@ -90,7 +90,13 @@ export const TapController = React.memo<{ children?: ReactNode }>(({ children })
     }, [isNext, isPrev, swiper, pages]);
 
     return (
-        <Swiper effect="fade" allowTouchMove={false} modules={[EffectFade]} onSwiper={setSwiper}>
+        <Swiper
+            effect="fade"
+            allowTouchMove={false}
+            modules={[EffectFade, Lazy]}
+            onSwiper={setSwiper}
+            lazy={{ loadPrevNext: true, loadPrevNextAmount: 2 }}
+        >
             {pages}
         </Swiper>
     );
