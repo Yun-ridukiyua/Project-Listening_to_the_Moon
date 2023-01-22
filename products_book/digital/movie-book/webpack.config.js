@@ -14,11 +14,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(png|jpe?g)$/i,
-                type: "asset/inline",
-            },
-            {
-                test: /\.(mp4)$/i,
+                test: /\.(png|jpe?g|mp4)$/i,
                 generator: {
                     filename: `./assets/[name].[contenthash][ext]`,
                 },

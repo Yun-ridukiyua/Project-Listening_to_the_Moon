@@ -11,7 +11,7 @@ export const usePageVisibleState = (pageElement: HTMLElement | undefined | null)
         threshold: 0.1,
     });
     const isAllVisible = useIntersectionObserver(pageElement, {
-        threshold: 0.95,
+        threshold: 0.9,
     });
 
     return { isVisible: isVisible && isActive, isStable: isAllVisible && isActive };

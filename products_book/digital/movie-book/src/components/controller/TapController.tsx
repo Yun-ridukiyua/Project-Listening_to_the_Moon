@@ -1,5 +1,5 @@
 import React, { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import SwiperCore, { EffectFade, Lazy } from 'swiper';
+import SwiperCore, { EffectFade, Lazy, Virtual } from 'swiper';
 import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from 'swiper/react';
 
 import { usePageVisibleState } from '../book-page/hooks/useIsPageStable';
@@ -14,8 +14,10 @@ export const TapController = React.memo<{ children?: ReactNode }>(({ children })
     const [swiper, setSwiper] = useState<SwiperCore>(); //タップして遷移するswiper
     const pages = useMemo(
         () =>
-            React.Children.toArray(children).map((element) => (
-                <SwiperSlide key={`Tap Slide ${Math.random()}`}>{element}</SwiperSlide>
+            React.Children.toArray(children).map((element, index) => (
+                <SwiperSlide virtualIndex={index} key={`Tap Slide ${Math.random()}`}>
+                    {element}
+                </SwiperSlide>
             )),
         [children]
     );
@@ -23,17 +25,12 @@ export const TapController = React.memo<{ children?: ReactNode }>(({ children })
     const abortControllerRef = useRef<AbortController>(new AbortController());
 
     /**
-     * クリックした時の処理
-     * @param event マウスイベント
+     * ページ遷移をするためのハンドラ
      */
-    const onClickHandler = useCallback(
-        (event: MouseEvent) => {
-            const target = event.currentTarget;
+    const pageTransitionHandler = useCallback(
+        (target: HTMLElement, offsetX: number) => {
             if (!swiper) return;
-            if (!(target instanceof HTMLElement)) return;
             const clientWidth = target.clientWidth;
-            const offsetX = event.offsetX;
-
             const leftMax = clientWidth / 5;
             const rightMin = clientWidth - leftMax;
 
@@ -62,6 +59,37 @@ export const TapController = React.memo<{ children?: ReactNode }>(({ children })
     );
 
     /**
+     * クリックした時の処理
+     * @param event マウスイベント
+     */
+    const onClickHandler = useCallback(
+        (event: MouseEvent) => {
+            const target = event.currentTarget;
+            if (!swiper) return;
+            if (!(target instanceof HTMLElement)) return;
+            const offsetX = event.offsetX;
+            pageTransitionHandler(target, offsetX);
+        },
+        [swiper, parentSwiper, pageTransitionHandler]
+    );
+
+    /**
+     * タップした時の処理
+     * @param event タップイベント
+     */
+    const onTouchHandler = useCallback(
+        (event: TouchEvent) => {
+            const target = event.currentTarget;
+            if (!swiper) return;
+            if (!(target instanceof HTMLElement)) return;
+            const rect = target.getBoundingClientRect();
+            const offsetX = event.touches[0].clientX - window.pageXOffset - rect.left;
+            pageTransitionHandler(target, offsetX);
+        },
+        [swiper, parentSwiper, pageTransitionHandler]
+    );
+
+    /**
      * 初期化処理
      */
     useEffect(() => {
@@ -72,13 +100,16 @@ export const TapController = React.memo<{ children?: ReactNode }>(({ children })
             swiper.el.addEventListener("click", onClickHandler, {
                 signal: abortControllerRef.current.signal,
             });
+            swiper.el.addEventListener("touchend", onTouchHandler, {
+                signal: abortControllerRef.current.signal,
+            });
         } else {
             abortControllerRef.current.abort();
         }
         return () => {
             abortControllerRef.current.abort();
         };
-    }, [isStable, swiper, abortControllerRef, onClickHandler]);
+    }, [isStable, swiper, abortControllerRef, onClickHandler, onTouchHandler]);
 
     useEffect(() => {
         if (!swiper) return;
@@ -93,9 +124,12 @@ export const TapController = React.memo<{ children?: ReactNode }>(({ children })
         <Swiper
             effect="fade"
             allowTouchMove={false}
-            modules={[EffectFade, Lazy]}
+            followFinger={false}
+            modules={[EffectFade, Lazy, Virtual]}
             onSwiper={setSwiper}
-            lazy={{ loadPrevNext: true, loadPrevNextAmount: 2 }}
+            preloadImages={true}
+            virtual
+            lazy={{ loadPrevNext: true, loadPrevNextAmount: 1 }}
         >
             {pages}
         </Swiper>

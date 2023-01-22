@@ -11,6 +11,7 @@ const StyledIamge = styled.img`
     position: absolute;
     z-index: 100;
     pointer-events: "auto";
+    cursor: pointer;
 `;
 
 /**
@@ -84,21 +85,47 @@ export const Jellyfish = React.memo<{ src: string; children?: ReactNode }>(({ sr
     }, [springAPI, setIsAnimating]);
 
     /**
-     * クリックした時の処理
+     * 画像をタップした時のハンドラ
      */
-    const onClickHandler = useCallback(
-        (event: MouseEvent) => {
+    const tapImageHandler = useCallback(
+        (offsetX: number, offsetY: number) => {
             if (!context2D) return;
-            if (isAnimating) return;
-            const imageX = Math.round(event.offsetX * rate.x);
-            const imageY = Math.round(event.offsetY * rate.y);
-            console.log(context2D.getImageData(imageX, imageY, 1, 1).data[3]);
+            const imageX = Math.round(offsetX * rate.x);
+            const imageY = Math.round(offsetY * rate.y);
+            //console.log(context2D.getImageData(imageX, imageY, 1, 1).data[3]);
             if (context2D.getImageData(imageX, imageY, 1, 1).data[3] > 0) {
                 console.log("clicked");
                 onAnimationStart();
             }
         },
-        [context2D, isAnimating, onAnimationStart, rate]
+        [context2D, onAnimationStart, rate]
+    );
+
+    /**
+     * クリックした時の処理
+     */
+    const onClickHandler = useCallback(
+        (event: MouseEvent) => {
+            if (isAnimating) return;
+            if (!(event.target instanceof HTMLImageElement)) return;
+            tapImageHandler(event.offsetX, event.offsetY);
+        },
+        [isAnimating, onAnimationStart, tapImageHandler]
+    );
+
+    /**
+     * タップした時の処理
+     */
+    const onTapHandler = useCallback(
+        (event: TouchEvent) => {
+            if (isAnimating) return;
+            if (!(event.target instanceof HTMLImageElement)) return;
+            const rect = event.target.getBoundingClientRect();
+            const offsetX = event.touches[0].clientX - window.pageXOffset - rect.left;
+            const offsetY = event.touches[0].clientY - window.pageYOffset - rect.top;
+            tapImageHandler(offsetX, offsetY);
+        },
+        [isAnimating, onAnimationStart, tapImageHandler]
     );
 
     /**
@@ -111,11 +138,14 @@ export const Jellyfish = React.memo<{ src: string; children?: ReactNode }>(({ sr
         imageElement.addEventListener("click", onClickHandler, {
             signal: abortController.signal,
         });
+        imageElement.addEventListener("touchend", onTapHandler, {
+            signal: abortController.signal,
+        });
 
         return () => {
             abortController.abort();
         };
-    }, [context2D, onClickHandler, imageRef]);
+    }, [context2D, onClickHandler, onTapHandler, imageRef]);
 
     return (
         <>

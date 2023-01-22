@@ -38,7 +38,7 @@ export const MovieBook = React.memo(() => {
             modules={[Virtual, Lazy]}
             threshold={10}
             preloadImages={true}
-            lazy={{ loadPrevNext: true, loadPrevNextAmount: 2 }}
+            lazy={{ loadPrevNext: true, loadPrevNextAmount: 1 }}
         >
             {slides}
         </Swiper>

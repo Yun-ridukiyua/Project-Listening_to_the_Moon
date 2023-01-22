@@ -47,7 +47,7 @@ export const MoviePage = React.memo<{
             //console.trace();
             videoElement.currentTime = seconds;
         },
-        [videoRef]
+        [videoRef, isNearlyEqual]
     );
 
     /**
@@ -66,7 +66,7 @@ export const MoviePage = React.memo<{
      */
     const pause = useCallback(() => {
         const videoElement = videoRef.current;
-        if (!videoElement || isPlayingRef.current) return;
+        if (!videoElement || isPlayingRef.current || videoElement.paused) return;
         videoElement.pause();
         console.log("paused");
     }, [videoRef, isPlayingRef]);
@@ -90,7 +90,7 @@ export const MoviePage = React.memo<{
                 pause();
             }
         }
-    }, [videoRef, duration, setCurrentTime, pause]);
+    }, [videoRef, duration, setCurrentTime, pause, loop]);
 
     /**
      * 動画の再生時間を監視する
