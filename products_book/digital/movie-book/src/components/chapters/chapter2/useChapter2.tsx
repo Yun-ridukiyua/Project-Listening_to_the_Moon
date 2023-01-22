@@ -27,7 +27,9 @@ export const useChapter2 = () => {
                 {/**眠るように */}
                 <MoviePage src={aVideo} duration={new Duration(6, 8)}></MoviePage>
                 {/**もう残りもないけれど */}
-                <MoviePage src={aVideo} duration={new Duration(8, 20)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(8, 14)}></MoviePage>
+                {/**もう残りもないけれど　遷移 */}
+                <MoviePage src={aVideo} duration={new Duration(14, 20)}></MoviePage>
             </TapController>
         );
 
@@ -35,7 +37,7 @@ export const useChapter2 = () => {
         pages.push(
             <TapController>
                 {/**通り道が遠り道〜 */}
-                <MoviePage src={aVideo} duration={new Duration(22, 54)} loop></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(23, 54)} loop></MoviePage>
             </TapController>
         );
 
@@ -51,7 +53,7 @@ export const useChapter2 = () => {
         pages.push(
             <TapController>
                 {/**さようなら等 */}
-                <MoviePage src={aVideo} duration={new Duration(68, 77)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(68, 74)} loop></MoviePage>
             </TapController>
         );
 
@@ -76,8 +78,6 @@ export const useChapter2 = () => {
         pages.push(
             <TapController>
                 {/**夜の星屑をあつめる〜 */}
-                <MoviePage src={aVideo} duration={new Duration(91, 92)}></MoviePage>
-                {/**画像を表示 */}
                 <MoviePage src={aVideo} duration={new Duration(93, 115)}></MoviePage>
             </TapController>
         );
@@ -120,7 +120,7 @@ export const useChapter2 = () => {
                 {/**これでもいいのなら〜 */}
                 <MoviePage src={aVideo} duration={new Duration(175, 185)}></MoviePage>
                 {/**これでもいいのなら〜 が消える*/}
-                <MoviePage src={aVideo} duration={new Duration(186, 195)}></MoviePage>
+                <MoviePage src={aVideo} duration={new Duration(188, 195)}></MoviePage>
             </TapController>
         );
         return pages;
