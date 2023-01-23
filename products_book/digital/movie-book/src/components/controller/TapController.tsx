@@ -111,6 +111,9 @@ export const TapController = React.memo<{ children?: ReactNode }>(({ children })
         };
     }, [isStable, swiper, abortControllerRef, onClickHandler, onTouchHandler]);
 
+    /**
+     * ページをめくった時、動画を止める。
+     */
     useEffect(() => {
         if (!swiper) return;
         if (isNext) {
