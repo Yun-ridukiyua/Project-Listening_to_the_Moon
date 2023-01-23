@@ -9,6 +9,7 @@ OPEN_APP = "Google Chrome"
 #OPEN_APP = "Firefox"
 
 DIST = dist
+DOCS = ../../../docs
 NODE_MODULES = node_modules
 
 all:
@@ -36,3 +37,6 @@ wipe:clean
 
 prepare:all
 	npm install
+
+deploy:production
+	cp -r $(DIST) $(DOCS)
