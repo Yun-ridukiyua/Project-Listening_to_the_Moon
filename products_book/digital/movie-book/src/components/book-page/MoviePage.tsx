@@ -1,6 +1,7 @@
-import { children } from 'dom7';
+import { pathEqual } from 'path-equal';
 import React, { ReactNode, useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { useSwiperSlide } from 'swiper/react';
 
 import { Duration } from '../../features/Duration';
 import { usePageVisibleState } from './hooks/useIsPageStable';
@@ -26,6 +27,7 @@ export const MoviePage = React.memo<{
 }>(({ src, duration, loop = false, children = null }) => {
     const isPlayingRef = useRef(false);
     const videoRef = useRef<HTMLVideoElement>(null);
+    const { isPrev } = useSwiperSlide();
     const { isVisible, isStable } = usePageVisibleState(videoRef.current);
 
     /**
@@ -43,8 +45,6 @@ export const MoviePage = React.memo<{
             const videoElement = videoRef.current;
             if (!videoElement) return;
             if (isNearlyEqual(videoElement.currentTime, seconds)) return;
-            //console.log(`set time ${seconds}`);
-            //console.trace();
             videoElement.currentTime = seconds;
         },
         [videoRef, isNearlyEqual]
@@ -58,11 +58,19 @@ export const MoviePage = React.memo<{
         const isPlaying = isPlayingRef.current;
         if (!videoElement || isPlaying) return;
         isPlayingRef.current = true;
+        // console.log(videoElement.src);
+        // console.log(src);
+        if (!pathEqual(videoElement.src, src)) {
+            console.log("load");
+            videoElement.src = src;
+        }
+        setCurrentTime(duration.start);
+
         await videoElement.play().then(() => (isPlayingRef.current = false));
-    }, [videoRef, isPlayingRef]);
+    }, [videoRef, isPlayingRef, src, setCurrentTime]);
 
     /**
-     * 動画を停止する
+     * 動画を一時停止する
      */
     const pause = useCallback(() => {
         const videoElement = videoRef.current;
@@ -70,6 +78,18 @@ export const MoviePage = React.memo<{
         videoElement.pause();
         console.log("paused");
     }, [videoRef, isPlayingRef]);
+
+    /**
+     * 動画を停止する
+     */
+    const stop = useCallback(() => {
+        const videoElement = videoRef.current;
+        if (!videoElement) return;
+        videoElement.pause();
+        videoElement.src = "";
+        videoElement.load();
+        console.log("stopped");
+    }, [videoRef]);
 
     /**
      * 動画の時間が変更された時のハンドラ
@@ -114,13 +134,21 @@ export const MoviePage = React.memo<{
      */
     useEffect(() => {
         if (isStable) {
-            setCurrentTime(duration.start);
             play();
         } else {
             setCurrentTime(duration.start);
             pause();
         }
     }, [isVisible, isStable, duration, pause, play, setCurrentTime]);
+
+    /**
+     * ページが捲られたら停止する
+     */
+    useEffect(() => {
+        if (isPrev) {
+            stop();
+        }
+    }, [isPrev, stop]);
 
     return (
         <div style={{ display: "flex", justifyContent: "center" }}>

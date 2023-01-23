@@ -117,6 +117,14 @@ export const TapController = React.memo<{ children?: ReactNode }>(({ children })
             swiper.slideTo(0);
         } else if (isPrev) {
             swiper.slideTo(pages.length - 1);
+            swiper.$el.find("video").forEach((videoElement) => {
+                if (videoElement instanceof HTMLVideoElement) {
+                    videoElement.pause();
+                    videoElement.src = "";
+                    videoElement.load();
+                    console.log("stopped");
+                }
+            });
         }
     }, [isNext, isPrev, swiper, pages]);
 

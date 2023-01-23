@@ -64,6 +64,7 @@ export const Jellyfish = React.memo<{ src: string; children?: ReactNode }>(({ sr
      * クラゲのアニメーションを開始する
      */
     const onAnimationStart = useCallback(() => {
+        if (isAnimating) return;
         springAPI.start({
             from: { x: 0 },
             to: async (next, cancel) => {
@@ -82,7 +83,7 @@ export const Jellyfish = React.memo<{ src: string; children?: ReactNode }>(({ sr
                 setIsAnimating(false);
             },
         });
-    }, [springAPI, setIsAnimating]);
+    }, [springAPI, setIsAnimating, isAnimating]);
 
     /**
      * 画像をタップした時のハンドラ
@@ -106,11 +107,10 @@ export const Jellyfish = React.memo<{ src: string; children?: ReactNode }>(({ sr
      */
     const onClickHandler = useCallback(
         (event: MouseEvent) => {
-            if (isAnimating) return;
             if (!(event.target instanceof HTMLImageElement)) return;
             tapImageHandler(event.offsetX, event.offsetY);
         },
-        [isAnimating, onAnimationStart, tapImageHandler]
+        [onAnimationStart, tapImageHandler]
     );
 
     /**
@@ -118,14 +118,13 @@ export const Jellyfish = React.memo<{ src: string; children?: ReactNode }>(({ sr
      */
     const onTapHandler = useCallback(
         (event: TouchEvent) => {
-            if (isAnimating) return;
             if (!(event.target instanceof HTMLImageElement)) return;
             const rect = event.target.getBoundingClientRect();
             const offsetX = event.touches[0].clientX - window.pageXOffset - rect.left;
             const offsetY = event.touches[0].clientY - window.pageYOffset - rect.top;
             tapImageHandler(offsetX, offsetY);
         },
-        [isAnimating, onAnimationStart, tapImageHandler]
+        [onAnimationStart, tapImageHandler]
     );
 
     /**
