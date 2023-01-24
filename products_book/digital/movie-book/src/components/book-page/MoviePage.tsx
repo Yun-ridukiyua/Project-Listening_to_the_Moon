@@ -27,7 +27,7 @@ export const MoviePage = React.memo<{
 }>(({ src, duration, loop = false, children = null }) => {
     const isPlayingRef = useRef(false);
     const videoRef = useRef<HTMLVideoElement>(null);
-    const { isPrev } = useSwiperSlide();
+    const { isPrev, isNext } = useSwiperSlide();
     const { isVisible, isStable } = usePageVisibleState(videoRef.current);
 
     /**
@@ -51,6 +51,19 @@ export const MoviePage = React.memo<{
     );
 
     /**
+     * 動画をロードする
+     */
+    const loadVideo = useCallback(() => {
+        const videoElement = videoRef.current;
+        if (!videoElement) return;
+        setCurrentTime(duration.start);
+        if (!pathEqual(videoElement.src, src)) {
+            console.log("load");
+            videoElement.src = src;
+        }
+    }, [src, setCurrentTime, videoRef]);
+
+    /**
      * 動画を再生する
      */
     const play = useCallback(async () => {
@@ -60,14 +73,10 @@ export const MoviePage = React.memo<{
         isPlayingRef.current = true;
         // console.log(videoElement.src);
         // console.log(src);
-        if (!pathEqual(videoElement.src, src)) {
-            console.log("load");
-            videoElement.src = src;
-        }
-        setCurrentTime(duration.start);
+        loadVideo();
 
         await videoElement.play().then(() => (isPlayingRef.current = false));
-    }, [videoRef, isPlayingRef, src, setCurrentTime]);
+    }, [videoRef, isPlayingRef, loadVideo]);
 
     /**
      * 動画を一時停止する
@@ -148,7 +157,10 @@ export const MoviePage = React.memo<{
         if (isPrev) {
             stop();
         }
-    }, [isPrev, stop]);
+        if (isNext) {
+            loadVideo();
+        }
+    }, [isPrev, isNext, stop]);
 
     return (
         <div style={{ display: "flex", justifyContent: "center" }}>

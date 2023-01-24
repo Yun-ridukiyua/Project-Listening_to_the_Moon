@@ -40,3 +40,4 @@ prepare:all
 
 deploy:production
 	cp -r $(DIST) $(DOCS)
+	make clean
